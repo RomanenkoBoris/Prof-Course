@@ -17,6 +17,7 @@ public class Main {
 
         System.out.println(secondLarge(list4));
 
+
     }
 
     public static List<String> compareLists(List<Integer> list1, List<Integer> list2) {
@@ -24,7 +25,7 @@ public class Main {
         Iterator<Integer> iterator2 = list2.iterator();
         List<String> result = new ArrayList<>();
         while (iterator1.hasNext() && iterator2.hasNext()) {
-            if (iterator1.next() == iterator2.next()) {
+            if (iterator1.next().equals(iterator2.next())) {
                 result.add("Yes");
             } else {
                 result.add("No");
