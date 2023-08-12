@@ -23,7 +23,14 @@ public class MyArrayList implements MyList, Iterable<Integer>{
               MyArrayList.this.remove(position--);
           }
       };
-    };
+    }
+
+    @Override
+    public Iterator<Integer> backward() {
+        return null;
+    }
+
+    ;
 
     // количество заполненных элементов, видимый пользователю размер контейнера
     private int size = 0;

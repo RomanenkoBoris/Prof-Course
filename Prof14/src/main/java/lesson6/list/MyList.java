@@ -15,4 +15,6 @@ public interface MyList extends Iterable<Integer> {
     int get(int index); // получение значения по индексу
 
     Iterator<Integer> iterator();
+
+    Iterator<Integer> backward();
 }
