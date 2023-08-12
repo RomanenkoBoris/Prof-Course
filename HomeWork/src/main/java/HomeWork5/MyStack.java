@@ -25,7 +25,7 @@ public class MyStack extends MyLinkedList {
     }
 
     public int search(int value) {
-        int position = 1;
+        int position = 0;
         Node n = getNodeByIndex(size() - 1);
         while (n != null) {
             if ( n.getValue() == value){

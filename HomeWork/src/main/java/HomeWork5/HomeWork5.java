@@ -10,7 +10,7 @@ public class HomeWork5 {
 
         System.out.println(numberOfUniqueTokens("1234123456"));
 
-        int [] array = {8,12,10,5};
+        Integer [] array = {8,12,10,5};
         System.out.println(areThereMultipliers(array, 60));
 
         Set <Integer> set = new HashSet<>(Arrays.asList(1,5,6,-6,9,4,-5,-47,96,-56));
@@ -45,11 +45,8 @@ public class HomeWork5 {
     }
 
     // Напишите функцию, принимающую на вход массив целых и целое число. Функция должна возвращать true если среди чисел массива есть пара, произведение которых дает второй аргумент
-    public static boolean areThereMultipliers(int[] array, int number) {
-        List<Integer> arrayList = new ArrayList<>();
-        for (int i = 0; i < array.length; i++) {
-            arrayList.add(array[i]);
-        }
+    public static boolean areThereMultipliers(Integer [] array, int number) {
+        List<Integer> arrayList = new ArrayList<>(Arrays.asList(array));
         for (Integer firstMultiplier : arrayList) {
             int secondMultiplier = number / firstMultiplier;
             if (number % firstMultiplier == 0 && arrayList.contains(secondMultiplier)){
