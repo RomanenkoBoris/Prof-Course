@@ -19,7 +19,7 @@ public class CarManager {
                 new Car("Renault", "Clio", 13_417.91),
                 new Car("Renault", "Espace", 29_547.47),
                 new Car("Volvo", "XC60", 35_478.11),
-                new Car("Volovo", "XC90", 45_478.54)
+                new Car("Volvo", "XC90", 45_478.54)
         ));
         System.out.println(sortCars(cars));
 

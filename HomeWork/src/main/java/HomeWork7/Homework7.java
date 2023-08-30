@@ -7,7 +7,7 @@ public class Homework7 {
 
         System.out.println(theOftestElement(Arrays.asList(1, 66, 4, 5, 2, 4, 8, 2, 4, 5, 6, 2, 4, 8, 6, 5, 8, 5, 6, 1, 5, 5)));
 
-        System.out.println(findEvanCountedElements(Arrays.asList(1, 66, 4, 5, 2, 4, 8, 2, 4, 5, 6, 2, 4, 8, 6, 5, 8, 5, 6, 1, 5, 5)));
+        System.out.println(findEvenCountedElements(Arrays.asList(1, 66, 4, 5, 2, 4, 8, 2, 4, 5, 6, 2, 4, 8, 6, 5, 8, 5, 6, 1, 5, 5)));
 
         String [] words = {"student", "students", "dog", "god", "cat", "act", "flow", "wolf"};
 
@@ -33,8 +33,27 @@ public class Homework7 {
         return element.getKey();
     }
 
+    public static String getFrequent(List<String> list) {
+        // поместить все элементы в Map<String, Integer>
+        // отсортировать все Entry<String, Integer> по значениям
+        Map<String, Integer> frequencies = new HashMap<>();
+        for (String s : list) {
+            Integer count = frequencies.get(s);
+            if (count == null)
+                frequencies.put(s, 1);
+            else frequencies.put(s, count + 1);
+        }
+
+        Map.Entry<String, Integer> max = Collections.max(
+                frequencies.entrySet(),
+                Comparator.comparingInt(Map.Entry::getValue)
+        );
+
+        return max.getKey();
+    }
+
     // Напишите функцию, которая вернет все элементы списка, которые встретились четное число раз
-    public static Set<Object> findEvanCountedElements (List<Object> objectList){
+    public static Set<Object> findEvenCountedElements (List<Object> objectList){
         Map<Object, Integer> countElements = new HashMap();
         Set<Object> elements = new HashSet<>();
         for (Object current : objectList) {
