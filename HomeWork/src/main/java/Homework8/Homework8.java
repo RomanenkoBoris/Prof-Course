@@ -44,14 +44,11 @@ public class Homework8 {
                 .forEach(strings -> System.out.println(strings[0]));
 
         // найдите средний возраст
-        int ageSum = employees.stream()
-                .map(e -> e.getAge())
-                .reduce(0, (sum, age) -> sum + age); // метод работате только с числовым потоком!!!
-
-        long quantity = employees.stream()
-                .count();
-
-        System.out.println("Средний возраст равен " + ageSum / quantity);
+        System.out.println("=== average age ===");
+        employees.stream()
+                .mapToDouble(e -> e.getAge())
+                .average()
+                .ifPresent(System.out::println);
 
         // Посчитайте количество программистов мужчин - имя не оканчивается на "а"
         System.out.println(employees.stream()
@@ -69,6 +66,14 @@ public class Homework8 {
         Map<String, List<Employee>> employeesMap = new HashMap<>(employees.stream()
                 .collect(Collectors.groupingBy(e -> e.getAge()<= 40? "young":"old")));
         System.out.println(employeesMap);
+
+        // разделите всех работников на 2 группы - старше 40 лет (true) и младше 40 лет (false)
+        System.out.println("=== age > 40 ===");
+        System.out.println(
+                employees.stream()
+                        .collect(Collectors.partitioningBy(e -> e.getAge() > 40)) // Ключом являеься только boolean
+                        // .collect(Collectors.partitioningBy(e -> e.getAge() > 40))
+        );
 
         // Найдите профессию самого старшего из молодых
         employeesMap.entrySet().stream()
@@ -88,45 +93,46 @@ public class Homework8 {
                 .map(entry -> new AbstractMap.SimpleEntry(entry.getValue().size(), entry.getKey()))
                 .collect(Collectors.toMap(pair -> pair.getKey(), pair -> pair.getValue())));
 
-        // Вернуть средний возраст мужчин и женщин в виде Map <Boolean, Double>,
-        // где ключ true соответствует женщинам
-        Map<Boolean,Integer> map1= new HashMap<>(employees.stream()
-                .collect(Collectors.toMap(employee -> employee.getName().endsWith("a")? true:false, employee -> employee.getAge())));
 
-        System.out.println(map1);
+        System.out.println("=== number of people in position ===");
+        System.out.println(
+                employees.stream()
+                        .collect(Collectors.groupingBy(e -> e.getPosition()))
+                        .entrySet().stream()
+                        .collect(
+                                Collectors.toMap(
+                                        pair -> pair.getKey(),
+                                        pair -> pair.getValue().size()
+                                )
+                        )
+        );
+        System.out.println(
+                employees.stream()
+                        .collect(Collectors.groupingBy(
+                                Employee::getPosition,
+                                Collectors.counting()
+                        ))
+        );
+
+        // Вернуть средний возраст мужчин и женщин - у женщин фамилия оканчивается на "a" -
+        // в виде Map<Boolean, Double> - ключ "true" соответствует женщинам
+        System.out.println("=== men women average age");
+        employees.stream()
+                .collect(
+                        Collectors.groupingBy(
+                                e -> e.getName().endsWith("a"),
+                                Collectors.averagingDouble(e -> e.getAge())
+                        )
+                );
 
 
-        int womenAgeSum = employees.stream()
-                .filter(e -> e.getName().charAt(e.getName().length() - 1) == 'a')
-                .map(e -> e.getAge())
-                .reduce(0, (total, empl) -> total + empl);
-
-        // Т.е. мы не можем добавлять к одной ссылке потока различные терминальные операции и получать разный результат?!!!
-        long quantityOfWomen = employees.stream()
-                .filter(e -> e.getName().charAt(e.getName().length() - 1) == 'a')
-                .count();
-
-        int menAgeSum = ageSum - womenAgeSum;
-        long quantityOfMen = quantity - quantityOfWomen;
-        double menAverageAge = menAgeSum / quantityOfMen;
-        double womenAverageAge = womenAgeSum / quantityOfWomen;
-
-//        Map<Boolean, Double> ageAverageMap = new HashMap<>(employees.stream()
-//                .collect(Collectors.toMap(e -> e.getName().charAt(e.getName().length() - 1) == 'a',
-//                        e -> e.getName().charAt(e.getName().length() - 1) == 'a'? womenAverageAge: menAverageAge)));
-//
-//        System.out.println(ageAverageMap);
-//
-//        // Выдает ошибку. Не понимаю почему - должно работать. Пора изучить дебаггер.
-//
-//        System.out.println(ageAverageMap);
-
-
-        // Распечатать работников с самым частовстречающимся возрастом
-        Map<Integer, List<Employee>> ageMap = employees.stream()
-                .collect(Collectors.groupingBy(e -> e.getAge()));
-        ageMap.values().stream()
-                .max(Comparator.comparingInt((List<Employee> l) -> l.size()))
+        // Распечатать работников с самым часто встречающимся возрастом
+        System.out.println("=== most common age ===");
+        employees.stream()
+                .collect(Collectors.groupingBy(e -> e.getAge()))
+                .entrySet().stream()
+                .max((e1, e2) -> Integer.compare(e1.getValue().size(), e2.getValue().size()))
+                .map(pair -> pair.getValue())
                 .ifPresent(l -> System.out.println(l));
 
     } // main
