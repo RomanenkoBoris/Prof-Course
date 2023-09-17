@@ -65,9 +65,8 @@ public class HomeWork9 {
     // Написать метод, который вернет количество вхождений каждого из имен в файл.
     private static void findUniqueNames(String fileName) {
         Map <String, Integer> names = new HashMap<>();
-        try {
-            Reader reader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(reader);
+        try (Reader reader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(reader);){
             StringBuffer stringBuffer = new StringBuffer(bufferedReader.readLine());
             while (true){
                 String temp = bufferedReader.readLine();
@@ -88,6 +87,7 @@ public class HomeWork9 {
         } catch (IOException iOE){
             System.err.println("Exception: " + iOE.getLocalizedMessage());
         }
+
     }
 
     // Есть текстовой файл с произовльным текстом text.txt
