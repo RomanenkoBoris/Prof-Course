@@ -1,9 +1,6 @@
 package HomeWork10;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -16,11 +13,17 @@ public class HomeWork10 {
         } catch (FileNotFoundException e) {
             System.err.println("Exception: " + e.getMessage());
         }
+        try {
+            System.out.println(wc("month.txt"));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         try {
-            findSubString("text.txt", "fdg");
-        } catch (Exception e) {
-            System.err.println("Exception: " + e.getMessage());
+            System.out.println(grep("month.txt", "r"));
+        } catch (Exception e)
+        {
+            System.err.println(e.getMessage());
         }
 
     }
@@ -37,16 +40,29 @@ public class HomeWork10 {
         return numberOfLines;
     }
 
+    //Напишите функцию, которая считает количество строк в передаваемом в нее в виде параметра текстовом файле
+    public static Long wc(String fileName) throws Exception {
+        try(
+                Reader fileReader = new FileReader(fileName);
+                BufferedReader bufferedReader = new BufferedReader(fileReader)
+        )
+        {
+            return bufferedReader.lines().count();
+        }
+    }
+
     // В функцию передаются имя файла и подстрока. Посчитайте количество строк текстового файла, содержащие эту подстроку.
-    public static void findSubString(String fileName, String subString) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        br.lines()
-                .collect(Collectors.partitioningBy(line -> line.contains(subString), Collectors.counting()))
-                .entrySet().stream()
-                .filter(pair -> pair.getKey().equals(true))
-                .mapToInt(pair -> Math.toIntExact(pair.getValue()))
-                .forEach(System.out::println);
-        br.close();
+    public static Long grep(String fileName, String pattern) throws Exception
+    {
+        try(
+                Reader fileReader = new FileReader(fileName);
+                BufferedReader bufferedReader = new BufferedReader(fileReader)
+        )
+        {
+            return bufferedReader.lines()
+                    .filter(string -> string.contains(pattern))
+                    .count();
+        }
     }
 
 }
