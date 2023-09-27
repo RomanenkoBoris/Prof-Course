@@ -23,24 +23,19 @@ public class homework11 {
     }
 
     public static boolean isPinCode (String str){
-        return str.matches("\\d{4,6}");
+        return str.matches("\\d{4}|\\d{6}");
     }
 
-    public static void mapAllIntsToDouble (String str){
-        Pattern number = Pattern.compile("[0-9]+ ");
-        Matcher numbermatcher = number.matcher(str);
-        StringBuilder current = new StringBuilder(str);
-        int counter = 0;
-        while (numbermatcher.find()){
-            String tmp = numbermatcher.group();
-            if (counter ==0) {
-                current.replace(numbermatcher.start(), numbermatcher.end(), tmp.trim() + ".0 ");
-            } else {
-                int length = current.length() - str.length();
-                current.replace(numbermatcher.start()+length, numbermatcher.end()+length, tmp.trim() + ".0 ");
-            }
-            counter++;
-        }
-        System.out.println(current.toString());
+    // Напишите функцию mapAllIntsToDouble, которая бы добавляла к
+    // каждому целому в передаваемой строке ".0"
+    // Пример: "прибыль 12 расходы 20 доходы 50.3" -> "прибыль 12.0 расходы 20.0 доходы 50.3"
+    // "1 день прибыль 12 расходы 20 доходы 50.3 итого 9" ->"1.0 день прибыль 12 расходы 20 доходы 50.3 итого 9.0"
+    public static String mapAllIntsToDouble(String s)
+    {
+        // ^ - символ начала строки
+        // $ - символ конца строки
+        // модифицируйте чтобы заработало
+        // return s.replaceAll("(\\s)(\\d+)(\\s)", "$1$2.0$3");
+        return s.replaceAll("(\\s|^)(\\d+)(\\s|$)", "$1$2.0$3");
     }
 }

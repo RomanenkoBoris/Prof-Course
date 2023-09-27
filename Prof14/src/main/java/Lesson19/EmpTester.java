@@ -32,10 +32,10 @@ public class EmpTester {
                 .distinct()
                 .count()); // 4
 
-        // Распечатайтк фамилии всех жунщин,оканчивающиеся на "а"
+        // Распечатайте фамилии всех жунщин,оканчивающиеся на "а"
         employees.stream()
-                .filter(s -> s.getName().charAt(s.getName().length() - 1) == 'a')
-                .map(s -> s.getName().split(" "))
+                .filter(employee -> employee.getName().endsWith("a"))
+                .map(employee -> employee.getName().split(" "))
                 .forEach(strings -> System.out.println(strings[1]));
 
         // Распечатайте только имена всех работников
@@ -46,7 +46,7 @@ public class EmpTester {
         // найдите средний возраст
         int ageSum = employees.stream()
                 .map(e -> e.getAge())
-                .reduce(0, (sum, age) -> sum + age); // Почему не сразу?
+                .reduce(0, (sum, age) -> sum + age); // метод работате только с числовым потоком!!!
 
         long quantity = employees.stream()
                 .count();

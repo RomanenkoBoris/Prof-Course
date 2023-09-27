@@ -149,7 +149,14 @@ public class CrazyLambdas {
      * @return a thread supplier
      */
     public static Supplier<Thread> runningThreadSupplier(Runnable runnable) {
-        throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        return () -> {
+            // создать новый поток из runnable
+            Thread thread = new Thread(runnable);
+            // запустить его
+            thread.start();
+            // вернуть запущенный поток
+            return thread;
+        };
     }
 
     /**
@@ -158,7 +165,10 @@ public class CrazyLambdas {
      * @return a runnable consumer
      */
     public static Consumer<Runnable> newThreadRunnableConsumer() {
-        throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        return runnable -> {
+            Thread thread = new Thread(runnable);
+            thread.start();
+        };
     }
 
     /**
@@ -168,7 +178,11 @@ public class CrazyLambdas {
      * @return a function that transforms runnable into a thread supplier
      */
     public static Function<Runnable, Supplier<Thread>> runnableToThreadSupplierFunction() {
-        throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        return runnable -> () -> {
+            Thread thread = new Thread(runnable);
+            thread.start();
+            return thread;
+        };
     }
 
     /**
@@ -181,7 +195,17 @@ public class CrazyLambdas {
      * @return a binary function that receiver predicate and function and compose them to create a new function
      */
     public static BiFunction<IntUnaryOperator, IntPredicate, IntUnaryOperator> functionToConditionalFunction() {
-        throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        return new BiFunction<IntUnaryOperator, IntPredicate, IntUnaryOperator>() {
+            @Override
+            public IntUnaryOperator apply(IntUnaryOperator intUnaryOperator, IntPredicate intPredicate) {
+                return new IntUnaryOperator() {
+                    @Override
+                    public int applyAsInt(int i) {
+                        return intPredicate.test(i) ? intUnaryOperator.applyAsInt(i) : i;
+                    }
+                };
+            }
+        };
     }
 
     /**
@@ -192,7 +216,15 @@ public class CrazyLambdas {
      * @return a high-order function that fetches a function from a function map by a given name or returns identity()
      */
     public static BiFunction<Map<String, IntUnaryOperator>, String, IntUnaryOperator> functionLoader() {
-        throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        // throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        return new BiFunction<Map<String, IntUnaryOperator>, String, IntUnaryOperator>() {
+            @Override
+            public IntUnaryOperator apply(Map<String, IntUnaryOperator> stringIntUnaryOperatorMap, String s) {
+                return stringIntUnaryOperatorMap.containsKey(s) ?
+                        stringIntUnaryOperatorMap.get(s) :
+                        IntUnaryOperator.identity();
+            }
+        };
     }
 
     /**
@@ -201,6 +233,6 @@ public class CrazyLambdas {
      * @return a supplier instance
      */
     public static Supplier<Supplier<Supplier<String>>> trickyWellDoneSupplier() {
-        throw new UnsupportedOperationException("It's your job to implement this method"); // todo
+        return () -> (Supplier<Supplier<String>>) () -> (Supplier<String>) () -> "WELL DONE!";
     }
 }
