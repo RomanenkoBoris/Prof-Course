@@ -36,5 +36,13 @@ public class JapaneseEmployee {
         return baseSalary + coefficient * years;
     }
 
+    public String greetings()
+    {
+        if(years >= 5)
+            return "Good day, " + name;
+        else
+            return "Hello, " + name;
+    }
+
     public static final int coefficient = 50_000;
 }

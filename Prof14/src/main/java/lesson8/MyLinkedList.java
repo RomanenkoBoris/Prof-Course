@@ -15,7 +15,7 @@ import java.util.Iterator;
 // ArrayList O(N)
 // LinkedList O(1)
 
-public class MyLinkedList implements MyList {
+public class MyLinkedList <T> implements MyList <T> {
 
     private Node head; // голова списка - первый узел
     private int size = 0; // количество элементов в списке
@@ -36,24 +36,24 @@ public class MyLinkedList implements MyList {
         return r;
     }
 
-    private class Node {
-        private int value; // значение элемента
+    private class Node <T> {
+        private T value; // значение элемента
         private Node next; // ссылка на следующий узел
 
-        public Node(int value) {
+        public Node(T value) {
             this.value = value;
         }
 
-        public Node(int value, Node next) {
+        public Node(T value, Node next) {
             this.value = value;
             this.next = next;
         }
 
-        public int getValue() {
+        public T getValue() {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(T value) {
             this.value = value;
         }
 
@@ -72,7 +72,7 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public boolean contains(int value) {
+    public boolean contains(T value) {
         Node n = head;
         while (n != null) {
             if (n.getValue() == value)
@@ -83,12 +83,13 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public void set(int index, int value) {
-
+    public void set(int index, T value) {
+        Node n = getNodeByIndex(index);
+        n.value = value;
     }
 
     @Override
-    public void add(int value) {
+    public void add(T value) {
         size++;
         if (head == null) {
             head = new Node(value);
@@ -114,7 +115,7 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public void add(int index, int value) {
+    public void add(int index, T value) {
         if (index == 0) {
             Node prevHead = head;
             head = new Node(value, prevHead);
@@ -148,42 +149,42 @@ public class MyLinkedList implements MyList {
     }
 
     @Override
-    public int get(int index) {
+    public T get(int index) {
         Node n = getNodeByIndex(index);
         if (n == null) {
             throw new IndexOutOfBoundsException();
         }
-        return n.getValue();
+        return (T)n.getValue();
     }
 
     @Override
-    public Iterator<Integer> iterator() {
+    public Iterator<T> iterator() {
         return null;
     }
 
     @Override
-    public Iterator<Integer> backward() {
+    public Iterator<T> backward() {
         return null;
     }
     // добавление элемента в начало списка
 
-    void addFirst(int e) {
+    void addFirst(T e) {
         add(0, e);
     }
 
     // получение значения первого элемента
-    int getFirst() {
+    T getFirst() {
         return get(0);
 
     }
 
     // удаление первого элемента с возвращением его "старого" значения
-    int removeFirst(){
+    T removeFirst(){
         // если элементов нет, то IndexOutOfBoundsException
         if(head == null)
             throw new IndexOutOfBoundsException();
         // сохраняем значение первого элемента во временную переменную
-        int temp = get(0);
+        T temp = get(0);
         // удаляем первый элемент
         remove(0);
         // возвращаем сохраненное значение

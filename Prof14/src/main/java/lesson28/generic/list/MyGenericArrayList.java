@@ -1,44 +1,16 @@
-package lesson6.list;
+package lesson28.generic.list;
 
-import java.util.Iterator;
+public class MyGenericArrayList <T> implements MyGenericList<T>  {
 
-public class MyArrayList <T> implements MyList <T>, Iterable<T>{
-
-    public Iterator<T> iterator(){
-      return new Iterator<T>() {
-          // номер текущего элемента
-          private int position = -1;
-          @Override
-          public boolean hasNext() {
-              return ++position < size;
-          }
-
-          @Override
-          public T next() {
-              return get(position);
-          }
-
-          @Override
-          public void remove(){
-              MyArrayList.this.remove(position--);
-          }
-      };
-    }
-
-    @Override
-    public Iterator<T> backward() {
-        return null;
-    }
-
-    ;
 
     // количество заполненных элементов, видимый пользователю размер контейнера
     private int size = 0;
-    private T [] data; // массив в котором будут храниться элементы
-    private static final int INITIAL_CAPACITY = 4; // начальный размер массива
+    private T [] data; // массив в которому будут храниться элементы
+    // начальный размер массива
+    private static final int INITIAL_CAPACITY = 4;
 
-    public MyArrayList(){
-        data = (T[]) new Object [INITIAL_CAPACITY];
+    public MyGenericArrayList(){
+        data = (T[]) new Object[INITIAL_CAPACITY];
     }
 
     @Override
@@ -50,7 +22,7 @@ public class MyArrayList <T> implements MyList <T>, Iterable<T>{
     public boolean contains(T value) {
         for (int i = 0; i < size(); i++)
         {
-            if(data[i] == value)
+            if(data[i].equals(value))
                 return true;
         }
         return false;
@@ -62,7 +34,6 @@ public class MyArrayList <T> implements MyList <T>, Iterable<T>{
         // если не так, выбросим исключение
         if(index <0 || index >= size)
             throw new IndexOutOfBoundsException();
-        // изменить значение по индексу index
         data[index] = value;
     }
 
@@ -70,7 +41,7 @@ public class MyArrayList <T> implements MyList <T>, Iterable<T>{
     public void add(T value) {
         // добавление элемента в конец
         // если size() == data.length то нужно
-        if (size() == data.length) {
+        if(size() == data.length) {
             //      создать массив большего размера
             //      скопировать туда все элементы из старого
             increaseCapacity();
@@ -83,11 +54,15 @@ public class MyArrayList <T> implements MyList <T>, Iterable<T>{
 
     private void increaseCapacity()
     {
-        T [] array = (T[]) new Object [data.length*2];
-        for (int i = 0; i<data.length; i++){
-            array[i]=data[i];
+        // нужно создать массив в 2 раза больше
+        T [] newData = (T[]) new Object[data.length * 2];
+        // скопировать элементы от 0 до data.length из старого массива в новый
+        for(int i = 0; i < data.length; i++)
+        {
+            newData[i] = data[i];
         }
-        data = array;
+        // присвоить data ссылку на новый массив
+        data = newData;
     }
 
     @Override
@@ -117,7 +92,7 @@ public class MyArrayList <T> implements MyList <T>, Iterable<T>{
 
     @Override
     public T get(int index) {
-        if(index <0 || index >= size)
+        if(index < 0 || index >= size())
             throw new IndexOutOfBoundsException();
         return data[index];
     }

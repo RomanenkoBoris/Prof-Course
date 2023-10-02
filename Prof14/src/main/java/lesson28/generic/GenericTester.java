@@ -44,18 +44,36 @@ public class GenericTester {
 
         System.out.println(filter(Arrays.asList(countries), c -> c.length() > 5));
         // [Salvador, Venezuela, Albania]
+
+        Double [] numbers = {1.0, 4.33, -12.3, 34.2};
+        System.out.println(fromNumberTOList(numbers, 19.2)); // [34.2]
     } // main
+
+
+    // хотелось бы чтобы в функцию можно было бы передать не все типы/классы, а только некоторые
+    // Integer, Float, Double ... потомки Number
+    public static <T extends Number> List<T> fromNumberTOList(T [] array)
+    {
+        return Arrays.stream(array)
+                .peek(n -> System.out.println("number: " + n.doubleValue()))
+                .collect(Collectors.toList());
+    }
+
+    // хотелось бы чтобы в функцию можно было бы передать не все типы/классы, а только некоторые
+    // Integer, Float, Double ... потомки Number, которые подлежат сравнению
+    public static <T extends Number & Comparable<T>> List<T> fromNumberTOList(T [] array, T bound)
+    {
+        return Arrays.stream(array)
+                .filter(n -> n.compareTo(bound) > 0)
+                .peek(n -> System.out.println("number: " + n.doubleValue()))
+                .collect(Collectors.toList());
+    }
+
 
 //    Напишите в классе GenericTester функцию equals, которая сравнит две пары.
 //    Пары равны если равны оба их элемента
 
     public static boolean equals(Pair p1, Pair p2) {
-        if (p1 == null || p2 == null) {
-            return false;
-        }
-        if (p1.first().getClass() != p2.first().getClass() || p1.second().getClass() != p2.second().getClass()) {
-            return false;
-        }
         return p1.first().equals(p1.first()) && p1.second().equals(p2.second());
     }
 

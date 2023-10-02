@@ -27,7 +27,7 @@ public class IteratorTester {
             System.out.println("element is: " + integerIterator.next());
         }
 
-        MyList myList = new MyArrayList();
+        MyList <Integer> myList = new MyArrayList<>();
         myList.add(1);
         myList.add(2);
         myList.add(3);

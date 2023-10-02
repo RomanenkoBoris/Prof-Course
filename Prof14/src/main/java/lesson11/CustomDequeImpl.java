@@ -1,15 +1,15 @@
 package lesson11;
 
-public class CustomDequeImpl implements CustomDeque {
+public class CustomDequeImpl <T> implements CustomDeque <T> {
 
-    private int[] source; // содержимое
+    private T [] source; // содержимое
     private int size = 0; // начальный размер
     private int firstElementIndex = 0; // иднекс первого элемента
 
     private static final int CAPACITY = 4; // начальный размер массива
 
     public CustomDequeImpl() {
-        source = new int[CAPACITY];
+        source = (T[]) new Object[CAPACITY];
     }
 
     @Override
@@ -17,7 +17,7 @@ public class CustomDequeImpl implements CustomDeque {
         // [1, 2, 3]
         String r = "[";
         for (int i = 0; i < size(); i++) {
-            int v = source[(firstElementIndex + i) % source.length];
+            T v = source[(firstElementIndex + i) % source.length];
             r += v;
             if (i < size() - 1)
                 r += ", ";
@@ -27,7 +27,7 @@ public class CustomDequeImpl implements CustomDeque {
     }
 
     @Override
-    public void addFirst(int i) {
+    public void addFirst(T i) {
         // нужно проверить не равен ли size размеру массива
         if (size == source.length) {
             // если да, то нужно пересоздать массив и скопировать в него элементы
@@ -43,9 +43,9 @@ public class CustomDequeImpl implements CustomDeque {
     }
 
     private void increaseCapacity() {
-        int[] newSource = new int[source.length * 2];
+        T [] newSource = (T[]) new Object[source.length * 2];
         for (int i = 0; i < size(); i++) {
-            int v = source[(firstElementIndex + i) % source.length];
+            T v = source[(firstElementIndex + i) % source.length];
             newSource[i] = v;
         }
         firstElementIndex = 0;
@@ -53,7 +53,7 @@ public class CustomDequeImpl implements CustomDeque {
     }
 
     @Override
-    public int getFirst() throws IndexOutOfBoundsException {
+    public T getFirst() throws IndexOutOfBoundsException {
         if (size == 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -61,18 +61,18 @@ public class CustomDequeImpl implements CustomDeque {
     }
 
     @Override
-    public int removeFirst() throws IndexOutOfBoundsException {
+    public T removeFirst() throws IndexOutOfBoundsException {
         if (size == 0) {
             throw new IndexOutOfBoundsException();
         }
-        int tmp = source[firstElementIndex];
+        T tmp = source[firstElementIndex];
         firstElementIndex = (firstElementIndex + 1) % source.length;
         size -= 1;
         return tmp;
     }
 
     @Override
-    public void addLast(int i) {
+    public void addLast(T i) {
         if (size() == source.length) {
             increaseCapacity();
         }
@@ -81,7 +81,7 @@ public class CustomDequeImpl implements CustomDeque {
     }
 
     @Override
-    public int getLast() throws IndexOutOfBoundsException {
+    public T getLast() throws IndexOutOfBoundsException {
         if (size == 0) {
             throw new IndexOutOfBoundsException();
         }
@@ -89,7 +89,7 @@ public class CustomDequeImpl implements CustomDeque {
     }
 
     @Override
-    public int removeLast() throws IndexOutOfBoundsException {
+    public T removeLast() throws IndexOutOfBoundsException {
         /*
         // выбросить исключение если есть необходимость
         if(size() == 0)
@@ -103,7 +103,7 @@ public class CustomDequeImpl implements CustomDeque {
         // вернуть сохраненное значение
         return v;
          */
-        int v = getLast();
+        T v = getLast();
         size--;
         return v;
     }
