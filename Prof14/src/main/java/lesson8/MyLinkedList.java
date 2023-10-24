@@ -75,7 +75,7 @@ public class MyLinkedList <T> implements MyList <T> {
     public boolean contains(T value) {
         Node n = head;
         while (n != null) {
-            if (n.getValue() == value)
+            if (n.getValue().equals(value))
                 return true;
             n = n.getNext();
         }
@@ -92,14 +92,14 @@ public class MyLinkedList <T> implements MyList <T> {
     public void add(T value) {
         size++;
         if (head == null) {
-            head = new Node(value);
+            head = new Node<T>(value);
             return;
         }
         Node n = head;
         while (n.getNext() != null) {
             n = n.getNext();
         }
-        n.setNext(new Node(value));
+        n.setNext(new Node<T>(value));
     }
 
     // получение узла по его индексу
@@ -117,7 +117,7 @@ public class MyLinkedList <T> implements MyList <T> {
     @Override
     public void add(int index, T value) {
         if (index == 0) {
-            Node prevHead = head;
+            Node <T> prevHead = head;
             head = new Node(value, prevHead);
         } else {
             Node prev = getNodeByIndex(index - 1);
@@ -138,9 +138,9 @@ public class MyLinkedList <T> implements MyList <T> {
             size--;
             return;
         }
-        Node prev = getNodeByIndex(index - 1);
+        Node <T> prev = getNodeByIndex(index - 1);
         if (prev != null) {
-            Node current = prev.getNext();
+            Node<T> current = prev.getNext();
             if (current != null) {
                 prev.setNext(current.getNext());
             }
@@ -150,7 +150,7 @@ public class MyLinkedList <T> implements MyList <T> {
 
     @Override
     public T get(int index) {
-        Node n = getNodeByIndex(index);
+        Node<T> n = getNodeByIndex(index);
         if (n == null) {
             throw new IndexOutOfBoundsException();
         }
