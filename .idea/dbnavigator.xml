@@ -8,9 +8,8 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="b270be18-70e1-4490-b475-c24be4b5f4c6">
-      <console name="shop" type="STANDARD" schema="main" session="Main"><![CDATA[select
-    *
-from orders;]]></console>
+      <console name="shop" type="STANDARD" schema="main" session="Main"><![CDATA[create table users (id integer not null primary key autoincrement, first text, last text);
+commit;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
